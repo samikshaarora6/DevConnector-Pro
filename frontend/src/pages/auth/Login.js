@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import { login, clearError } from '../../store/slices/authSlice';
+import { logger } from '../../utils/logger';
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string()
@@ -20,20 +21,25 @@ const Login = () => {
   const { isAuthenticated, loading, error } = useSelector((state) => state.auth);
 
   useEffect(() => {
+    logger.info('Login component mounted');
     if (isAuthenticated) {
+      logger.info('User is authenticated, redirecting to dashboard');
       navigate('/dashboard');
     }
     return () => {
+      logger.info('Login component unmounting, clearing errors');
       dispatch(clearError());
     };
   }, [isAuthenticated, navigate, dispatch]);
 
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
-      await dispatch(login(values)).unwrap();
+      logger.info('Login form submitted', { email: values.email });
+      const result = await dispatch(login(values)).unwrap();
+      logger.info('Login successful, redirecting to dashboard');
       navigate('/dashboard');
     } catch (error) {
-      console.error('Login failed:', error);
+      logger.error('Login failed', { error });
     } finally {
       setSubmitting(false);
     }

@@ -8,9 +8,28 @@ const rateLimit = require('express-rate-limit');
 
 // Import routes
 const authRoutes = require('./routes/auth');
+const profileRoutes = require('./routes/profile');
 
 // Initialize express app
 const app = express();
+
+// Request logging middleware
+app.use((req, res, next) => {
+  console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
+  console.log('Request Headers:', req.headers);
+  console.log('Request Body:', req.body);
+  next();
+});
+
+// Response logging middleware
+app.use((req, res, next) => {
+  const oldSend = res.send;
+  res.send = function(data) {
+    console.log(`[${new Date().toISOString()}] Response for ${req.method} ${req.url}:`, data);
+    return oldSend.apply(res, arguments);
+  };
+  next();
+});
 
 // Middleware
 app.use(express.json());
@@ -28,6 +47,7 @@ app.use(limiter);
 
 // Mount routes
 app.use('/api/auth', authRoutes);
+app.use('/api/profile', profileRoutes);
 
 // Database connection
 mongoose.connect(process.env.MONGODB_URI)

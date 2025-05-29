@@ -4,63 +4,53 @@ const bcrypt = require('bcryptjs');
 const UserSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: [true, 'Please add a name'],
-    trim: true,
-    maxlength: [50, 'Name cannot be more than 50 characters']
+    required: true
   },
   email: {
     type: String,
-    required: [true, 'Please add an email'],
-    unique: true,
-    match: [
-      /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
-      'Please add a valid email'
-    ]
+    required: true,
+    unique: true
   },
   password: {
     type: String,
-    required: [true, 'Please add a password'],
-    minlength: [6, 'Password must be at least 6 characters'],
-    select: false
+    required: true
+  },
+  avatar: {
+    type: String
   },
   role: {
-    type: String,
-    enum: ['user', 'admin'],
-    default: 'user'
+    type: String
   },
-  bio: {
-    type: String,
-    maxlength: [500, 'Bio cannot be more than 500 characters']
+  company: {
+    type: String
   },
   location: {
-    type: String,
-    maxlength: [100, 'Location cannot be more than 100 characters']
-  },
-  website: {
-    type: String,
-    match: [
-      /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/,
-      'Please use a valid URL with HTTP or HTTPS'
-    ]
-  },
-  github: {
-    type: String,
-    match: [
-      /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/,
-      'Please use a valid URL with HTTP or HTTPS'
-    ]
+    type: String
   },
   skills: {
-    type: [String],
-    required: [true, 'Please add at least one skill']
+    type: [String]
+  },
+  bio: {
+    type: String
+  },
+  githubusername: {
+    type: String
   },
   social: {
-    twitter: String,
-    facebook: String,
-    linkedin: String,
-    instagram: String
+    youtube: {
+      type: String
+    },
+    twitter: {
+      type: String
+    },
+    linkedin: {
+      type: String
+    },
+    instagram: {
+      type: String
+    }
   },
-  createdAt: {
+  date: {
     type: Date,
     default: Date.now
   }

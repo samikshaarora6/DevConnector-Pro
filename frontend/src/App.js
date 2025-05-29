@@ -13,6 +13,7 @@ import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
 import Dashboard from './pages/Dashboard';
 import Profile from './pages/Profile';
+import Profiles from './pages/Profiles';
 import NotFound from './pages/NotFound';
 
 // Protected Route Component
@@ -29,6 +30,7 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
+              <Route path="/profiles" element={<Profiles />} />
               <Route
                 path="/dashboard"
                 element={

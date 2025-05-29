@@ -3,13 +3,6 @@ node_modules/
 /.pnp
 .pnp.js
 
-# Testing
-/coverage
-
-# Production
-/build
-/dist
-
 # Environment files
 .env
 .env.local
@@ -17,17 +10,33 @@ node_modules/
 .env.test.local
 .env.production.local
 
+# Build files
+/build
+/dist
+
 # Debug logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# IDE
+# IDE files
 .idea/
 .vscode/
 *.swp
 *.swo
 
-# OS
+# OS files
 .DS_Store
-Thumbs.db 
+Thumbs.db
+
+# Testing
+/coverage
+
+# Production
+/build
+
+# Misc
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local 

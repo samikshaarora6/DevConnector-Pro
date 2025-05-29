@@ -59,11 +59,15 @@ exports.register = async (req, res) => {
 // @access  Public
 exports.login = async (req, res) => {
   try {
+    console.log('Login attempt:', { email: req.body.email });
     const { email, password } = req.body;
 
     // Check for user
     const user = await User.findOne({ email }).select('+password');
+    console.log('User found:', user ? 'Yes' : 'No');
+    
     if (!user) {
+      console.log('Login failed: User not found');
       return res.status(401).json({
         success: false,
         message: 'Invalid credentials'
@@ -72,7 +76,10 @@ exports.login = async (req, res) => {
 
     // Check if password matches
     const isMatch = await user.matchPassword(password);
+    console.log('Password match:', isMatch ? 'Yes' : 'No');
+    
     if (!isMatch) {
+      console.log('Login failed: Invalid password');
       return res.status(401).json({
         success: false,
         message: 'Invalid credentials'
@@ -81,6 +88,7 @@ exports.login = async (req, res) => {
 
     // Generate token
     const token = generateToken(user._id);
+    console.log('Login successful, token generated');
 
     res.status(200).json({
       success: true,
@@ -93,6 +101,7 @@ exports.login = async (req, res) => {
       }
     });
   } catch (error) {
+    console.error('Login error:', error);
     res.status(500).json({
       success: false,
       message: 'Server Error',
